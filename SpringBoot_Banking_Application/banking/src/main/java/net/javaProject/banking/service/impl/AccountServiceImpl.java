@@ -7,6 +7,10 @@ import net.javaProject.banking.repository.AccountRepository;
 import net.javaProject.banking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -52,5 +56,19 @@ public class AccountServiceImpl implements AccountService {
         Account savedAccount = accountRepository.save(account);
         return AccountMapper.mapToAccountDto(savedAccount);
     }
+
+    @Override
+    public List<AccountDto> getAllAccounts() {
+        return accountRepository.findAll().stream()
+                .map(AccountMapper::mapToAccountDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAccount(Long id) {
+        Account account = accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account does not exist"));
+        accountRepository.deleteById(id);
+    }
+
 
 }

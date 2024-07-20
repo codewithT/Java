@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yaml.snakeyaml.DumperOptions;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -51,5 +53,19 @@ public class AccountController {
         Double amount = request.get("amount"); // json format (amount : val)
         AccountDto accountDto = accountService.withdraw(id, request.get("amount"));
         return ResponseEntity.ok(accountDto);
+    }
+
+    // Get all accounts
+    @GetMapping("/get")
+    public ResponseEntity<List<AccountDto>> getAllAccounts(){
+        List<AccountDto> accounts = accountService.getAllAccounts();
+        return ResponseEntity.ok(accounts);
+    }
+
+    // delete account rest API:
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<String> deleteAccount(@PathVariable  Long id){
+        accountService.deleteAccount(id);
+        return ResponseEntity.ok("Account is deleted successfully");
     }
 }
