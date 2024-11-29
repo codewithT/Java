@@ -209,7 +209,7 @@ Response:
 ```
 ### **Endpoint**: `GET /IMS/order/{id}`
  * URL : http://localhost:8080/IMS/order/3
- Response : 
+ * Response : 
  ```
  {
     "id": 3,
