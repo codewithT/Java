@@ -85,8 +85,8 @@ database).
 * Fetches all products from products table using pagination.
 * To implement Pagination- It uses Pageable Interface from spring data dependency.
 * End point takes Query parameter as String to be search.
-* Example:
-  http://localhost:8080/IMS/product/allProducts?search=Mac
+###  Example : 1:
+URL : http://localhost:8080/IMS/product/allProducts?search=Mac
   
 * Response :
   ```
@@ -128,9 +128,112 @@ database).
     "empty": false
 }
 
+### example 2: 
+URL : http://localhost:8080/IMS/product/allProducts?search=SKU
+* Elastic search by both name and SKU. Here search by Sku field.
+![image](https://github.com/user-attachments/assets/5e212eb8-cc9a-4d72-a90f-f59a64072b76)
+* fetches only products which are in active status.
+* Response:
+```
+  {
+    "content": [
+        {
+            "id": 1,
+            "sku": "SKU001",
+            "name": "MAC book",
+            "price": 112000.0,
+            "quantity": 98,
+            "active": true
+        },
+        {
+            "id": 4,
+            "sku": "SKU004",
+            "name": "Product 4",
+            "price": 49.99,
+            "quantity": 79,
+            "active": true
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": true,
+    "totalElements": 2,
+    "totalPages": 1,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 2,
+    "empty": false
+}
+```
+### Example 3:
+URL : http://localhost:8080/IMS/product/allProducts?search=Iph&page=1&size=2
+* This will fetch page = 1 and size of 2 (no of products) with search "Iph" as String
+* Response:
+```
+  {
+    "content": [
+        {
+            "id": 8,
+            "sku": "IPHONE54",
+            "name": "Iphone 112",
+            "price": 80000.99,
+            "quantity": 60,
+            "active": true
+        },
+        {
+            "id": 13,
+            "sku": "Iphone-123",
+            "name": "Iphone 23",
+            "price": 14100.0,
+            "quantity": 116,
+            "active": true
+        }
+    ],
+    "pageable": {
+        "pageNumber": 1,
+        "pageSize": 2,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 2,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": true,
+    "totalElements": 4,
+    "totalPages": 2,
+    "size": 2,
+    "number": 1,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "first": false,
+    "numberOfElements": 2,
+    "empty": false
+}
+```
 
-
-### **Endpoint**: `DELETE /IMS/product//delete/{id}`
+### **Endpoint**: `DELETE /IMS/product/delete/{id}`
 using DeleteMapping Annotation.
 * Delete a product: Soft delete a product (mark it as inactive, don’t delete from the
 database).
