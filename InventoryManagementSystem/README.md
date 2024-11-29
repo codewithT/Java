@@ -130,8 +130,7 @@ database).
 
 
 
-###
- **Endpoint**: `DELETE /IMS/product//delete/{id}`
+### **Endpoint**: `DELETE /IMS/product//delete/{id}`
 using DeleteMapping Annotation.
 * Delete a product: Soft delete a product (mark it as inactive, don’t delete from the
 database).
@@ -152,7 +151,7 @@ database).
 * OrderItem table schema:
 * ![image](https://github.com/user-attachments/assets/fee7ddef-e010-4045-89c0-ae0b8c210415)
 
- **Endpoint**: `POST /IMS/order/createOrder`
+ ### **Endpoint**: `POST /IMS/order/createOrder`
 * Request Body Example:
 * @PostMapping("/createOrder")
 ```
@@ -208,7 +207,7 @@ Response:
     ]
 }
 ```
- **Endpoint**: `GET /IMS/order/{id}`
+### **Endpoint**: `GET /IMS/order/{id}`
  * URL : http://localhost:8080/IMS/order/3
  Response : 
  ```
@@ -246,7 +245,7 @@ Response:
     ]
 }
 ```
-**Endpoint**: `GET /IMS/order/allOrders`
+### **Endpoint**: `GET /IMS/order/allOrders`
 * Implemented pagination to efficient load of data from server.
 * URL : http://localhost:8080/IMS/order/allOrders
 * Response :
