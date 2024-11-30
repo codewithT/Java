@@ -55,7 +55,14 @@ public class OrderServiceImpl implements OrderService {
             }
 
             OrderItemDto orderItemDto = OrderItemMapper.mapToOrderItemDto(ProductMapper.mapToProductDto(product), quantity);
-            product.setQuantity(product.getQuantity() - orderItemDto.getQuantity());
+
+            if(product.getQuantity() - orderItemDto.getQuantity() < 0){
+                throw new ProductNotAvailableException("Product quantity avaliable is "+ product.getQuantity(), "REQUESTED_MORE_THAN_QUANTITY" );
+            }
+
+            else{
+                product.setQuantity(product.getQuantity() - orderItemDto.getQuantity());
+            }
             orderItemsList.add(orderItemDto);
             totalPrice += product.getPrice() * quantity;
         }

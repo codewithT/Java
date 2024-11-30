@@ -39,9 +39,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto updateProduct(Long id, ProductUpdateDto productUpdateDto) {
         Product product = productRepository.findById(id).orElseThrow(() ->
                 new ProductNotAvailableException("Please select a valid product", "PRODUCT_NOT_AVALIABLE"));
-        if(!productUpdateDto.getActive()){
+        if(productUpdateDto.getActive() != null && (productUpdateDto.getActive() || product.getActive())  ){
+            // updating out of stock status to active.
+             product.setActive(true);
+        }
+        if( !product.getActive()){
             throw new ProductNotAvailableException("Product out of stock" + id , "PRODUCT_NOT_AVALIBALE");
         }
+
         if(productUpdateDto.getName() != null){
             product.setName(productUpdateDto.getName());
         }
