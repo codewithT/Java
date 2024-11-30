@@ -31,12 +31,21 @@ public class GlobalExceptionHandler {
         response.put("status " , HttpStatus.BAD_REQUEST.value());
         return  new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(NoOrdersExceptioin.class)
     public ResponseEntity<Map<String,Object>> handleNoOrdersException(NoOrdersExceptioin noOrdersExceptioin){
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp" , LocalDateTime.now());
         response.put("Message", noOrdersExceptioin.getMessage());
         response.put("Error Code " , noOrdersExceptioin.getErrorCode());
+        response.put("Status " , HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UniqueSkuException.class)
+    public ResponseEntity<Map<String,Object>> UniqueSkuException(UniqueSkuException uniqueSkuException){
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp" , LocalDateTime.now());
+        response.put("Message", uniqueSkuException.getMessage());
+        response.put("Error Code " , uniqueSkuException.getErrorCode());
         response.put("Status " , HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

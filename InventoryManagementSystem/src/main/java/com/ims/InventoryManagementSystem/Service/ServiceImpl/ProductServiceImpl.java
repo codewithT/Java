@@ -4,6 +4,7 @@ import com.ims.InventoryManagementSystem.Dto.ProductDto;
 import com.ims.InventoryManagementSystem.Dto.ProductUpdateDto;
 import com.ims.InventoryManagementSystem.Entity.Product;
 import com.ims.InventoryManagementSystem.Exception.ProductNotAvailableException;
+import com.ims.InventoryManagementSystem.Exception.UniqueSkuException;
 import com.ims.InventoryManagementSystem.Mapper.ProductMapper;
 import com.ims.InventoryManagementSystem.Repository.ProductRepository;
 import com.ims.InventoryManagementSystem.Service.ProductService;
@@ -25,6 +26,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto createProduct(ProductDto productDto) {
         Product product = ProductMapper.mapToProduct(productDto);
+        Product checkForUniqueSku = productRepository.findBySku(product.getSku());
+        if(checkForUniqueSku != null){
+            throw new UniqueSkuException("Please, Provide Unique SKU details", "PRODUCT_SKU_NOT_UNIQUE");
+        }
         productRepository.save(product);
         ProductDto savedProduct= ProductMapper.mapToProductDto(product);
         return savedProduct;
@@ -34,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto updateProduct(Long id, ProductUpdateDto productUpdateDto) {
         Product product = productRepository.findById(id).orElseThrow(() ->
                 new ProductNotAvailableException("Please select a valid product", "PRODUCT_NOT_AVALIABLE"));
-        if(productUpdateDto.getActive() != null){
+        if(!productUpdateDto.getActive()){
             throw new ProductNotAvailableException("Product out of stock" + id , "PRODUCT_NOT_AVALIBALE");
         }
         if(productUpdateDto.getName() != null){
